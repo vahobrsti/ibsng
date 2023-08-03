@@ -11,6 +11,7 @@ from core.user import user_main
 from core.ras import ras_main
 from core.ias import ias_main
 import re,time
+from decimal import Decimal
 
 class UserActions:
 #######################################################
@@ -216,7 +217,7 @@ class UserActions:
             raise GeneralException(errorText("USER_ACTIONS","INVALID_USER_COUNT")%0)
 
         for loaded_user in loaded_users:
-            if credit<0 and loaded_user.getBasicUser().getCredit()+credit<0:
+            if credit<0 and (Decimal(loaded_user.getBasicUser().getCredit()) + Decimal(credit<0)) < 0:
                 raise GeneralException(errorText("USER_ACTIONS","CAN_NOT_NEGATE_CREDIT")%(loaded_user.getUserID(),loaded_user.getBasicUser().getCredit()))
             
     def __changeCreditQuery(self,user_ids,credit):
