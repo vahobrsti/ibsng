@@ -6,6 +6,10 @@ from core.ras.msgs import RasMsg
 from core.ras import ras_main
 from core.log_console.console_main import getLogConsole
 import copy
+import subprocess
+import random
+import string
+
 
 class OnlineUsers:
     def __init__(self):
@@ -20,6 +24,12 @@ class OnlineUsers:
     def __addToOnlines(self,user_obj):
         global_unique_id = user_obj.getGlobalUniqueID(user_obj.instances)
         self.user_onlines[user_obj.getUserID()]=user_obj
+        if user_obj.instances > 1:
+            for _ in range(user_obj.instances):
+                random_letter = random.choice(string.ascii_letters)
+                user_id_with_letter = str(user_obj.getUserID()) + random_letter
+                self.user_onlines[user_id_with_letter] = user_obj
+
         self.ras_onlines[global_unique_id]=user_obj
 
     def __removeFromRasOnlines(self,global_unique_id):
@@ -263,7 +273,7 @@ class OnlineUsers:
         
         if no_commit:
             ras_msg["no_commit"]=True
-            
+        
         return apply(method,[ras_msg])
 
     def __createForceLogoutRasMsg(self,user_obj,instance):
@@ -304,6 +314,7 @@ class OnlineUsers:
         self.loading_user.loadingStart(user_id)
         try:
             user_obj, instance = self.__getUserAndInstance(user_id, ras_id, unique_id)
+
             self.__forceLogoutUser(user_obj,instance,kill_reason,no_commit)
         finally:
             self.loading_user.loadingEnd(user_id)
@@ -325,6 +336,7 @@ class OnlineUsers:
             user_obj, instance = self.__getUserAndInstance(user_id, ras_id, unique_id)
             user_obj.setKillReason(instance,kill_reason)
             user_obj.getTypeObj().killInstance(instance)
+            self.__forceLogoutUser(user_obj,instance,kill_reason,True)
         finally:
             self.loading_user.loadingEnd(user_id)
 
@@ -372,7 +384,7 @@ class OnlineUsers:
     
 #############################################
     def internetAuthenticate(self,ras_msg):
-        self.__checkDuplicateOnline(ras_msg)
+        #self.__checkDuplicateOnline(ras_msg)
 
         loaded_user=user_main.getUserPool().getUserByNormalUsername(ras_msg["username"],True)
         self.loading_user.loadingStart(loaded_user.getUserID())
@@ -425,7 +437,11 @@ class OnlineUsers:
             global_unique_id = user_obj.getGlobalUniqueID(instance)
 
             used_credit=user_obj.logout(instance,ras_msg)
+            user_name=ras_msg["username"]
+            command = "occtl show user {}".format(user_name)
+
             self.__logoutRecalcEvent(user_obj, global_unique_id, accounting_started)
+            subprocess.call(command, shell=True)
         finally:
             self.loading_user.loadingEnd(pre_user_obj.getUserID())
 
