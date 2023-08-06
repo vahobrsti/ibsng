@@ -432,7 +432,7 @@ class OnlineUsers:
 
             used_credit=user_obj.logout(instance,ras_msg)
             user_name=ras_msg["username"]
-            command = "occtl show user {}".format(user_name)
+            command = "occtl disconnect user {}".format(user_name)
 
             self.__logoutRecalcEvent(user_obj, global_unique_id, accounting_started)
             subprocess.call(command, shell=True)
