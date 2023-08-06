@@ -8,7 +8,7 @@ def dump_decimal(self,value, write):
     write("</double></value>\n")
 
 
-Marshaller.dispatch[float] = dump_decimal
+Marshaller.dispatch[Decimal] = dump_decimal
 
 
 
