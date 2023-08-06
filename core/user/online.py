@@ -24,12 +24,6 @@ class OnlineUsers:
     def __addToOnlines(self,user_obj):
         global_unique_id = user_obj.getGlobalUniqueID(user_obj.instances)
         self.user_onlines[user_obj.getUserID()]=user_obj
-        if user_obj.instances > 1:
-            for _ in range(user_obj.instances):
-                random_letter = random.choice(string.ascii_letters)
-                user_id_with_letter = str(user_obj.getUserID()) + random_letter
-                self.user_onlines[user_id_with_letter] = user_obj
-
         self.ras_onlines[global_unique_id]=user_obj
 
     def __removeFromRasOnlines(self,global_unique_id):
