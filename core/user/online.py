@@ -267,7 +267,7 @@ class OnlineUsers:
         
         if no_commit:
             ras_msg["no_commit"]=True
-        
+            
         return apply(method,[ras_msg])
 
     def __createForceLogoutRasMsg(self,user_obj,instance):
@@ -308,7 +308,6 @@ class OnlineUsers:
         self.loading_user.loadingStart(user_id)
         try:
             user_obj, instance = self.__getUserAndInstance(user_id, ras_id, unique_id)
-
             self.__forceLogoutUser(user_obj,instance,kill_reason,no_commit)
         finally:
             self.loading_user.loadingEnd(user_id)
@@ -330,7 +329,6 @@ class OnlineUsers:
             user_obj, instance = self.__getUserAndInstance(user_id, ras_id, unique_id)
             user_obj.setKillReason(instance,kill_reason)
             user_obj.getTypeObj().killInstance(instance)
-            self.__forceLogoutUser(user_obj,instance,kill_reason,True)
         finally:
             self.loading_user.loadingEnd(user_id)
 
