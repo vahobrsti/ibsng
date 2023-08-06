@@ -3,4 +3,4 @@
 interface/smarty/templates_c/*
 
 .idea
-
+**/.DS_Store

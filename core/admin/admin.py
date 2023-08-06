@@ -10,6 +10,7 @@ import re
 import threading
 import copy
 import time
+#from decimal import Decimal
 
 class Admin:
     def __init__(self,username,password,name,comment,admin_id,deposit,creator_id,due):

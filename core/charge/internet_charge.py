@@ -4,6 +4,7 @@ from core import defs
 from core.lib.time_lib import *
 from core.ibs_exceptions import *
 from core.errors import errorText
+from decimal import Decimal
 
 import time
 CHARGE_DEBUG=False
@@ -59,8 +60,9 @@ class InternetCharge(ChargeWithRules):
             if effective_rule.cpm is None:
                 effective_rule.cpm = 0
 
-            credit_usage_per_second += float(effective_rule.cpm) / 60.0 + \
-                                       float(effective_rule.cpk) * float(effective_rule.assumed_kps)
+            credit_usage_per_second += Decimal(effective_rule.cpm) / Decimal('60.0') + \
+                           Decimal(effective_rule.cpk) * Decimal(effective_rule.assumed_kps)
+
 
         #endfor
         
@@ -89,16 +91,14 @@ class InternetCharge(ChargeWithRules):
             calculate and return amount of credit that this instance of user consumed
             during --EFFECTIVE-- rule only
         """
-        now = time.time()
-        effective_rule = user_obj.charge_info.effective_rules[instance - 1]
-        timely_credit_used = 0.0
-        transfer_credit_used = 0.0
-
-        if effective_rule.cpm > 0:
-            timely_credit_used = float(effective_rule.cpm) * float(now - user_obj.charge_info.rule_start[instance - 1]) / 60.0
-
-        if effective_rule.cpk > 0:
-            transfer_credit_used = float(effective_rule.cpk) * float(effective_rule.calcRuleTransferUsage(user_obj, instance)) / 1024.0
+        now=time.time()
+        effective_rule=user_obj.charge_info.effective_rules[instance-1]
+        timely_credit_used=0
+        transfer_credit_used=0
+        if effective_rule.cpm>0:
+            timely_credit_used=effective_rule.cpm * (now - user_obj.charge_info.rule_start[instance-1]) / 60
+        if effective_rule.cpk>0:
+            transfer_credit_used=effective_rule.cpk * (effective_rule.calcRuleTransferUsage(user_obj,instance)) / Decimal('1024.0') 
 
         if CHARGE_DEBUG:
             toLog("user_id: %s timely_credit_used: %s transfer_credit_used: %s"%(user_obj.getUserID(),timely_credit_used,transfer_credit_used),LOG_DEBUG)
