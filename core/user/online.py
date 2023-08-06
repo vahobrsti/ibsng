@@ -89,7 +89,7 @@ class OnlineUsers:
             return User instance of online user, or None if no user is online
         """
         try:
-            return self.ras_onlines[unique_id_val]
+            return self.ras_onlines[(ras_id,unique_id_val)]
         except KeyError:
             return None
 
