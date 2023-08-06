@@ -2,15 +2,14 @@ from xmlrpclib import Marshaller
 from decimal import Decimal
 
 
-def dump_float(self, value, write):
-    if isinstance(value, Decimal):
-        value = float(value)
+def dump_decimal(self,value, write):
     write("<value><double>")
     write(str(value))
     write("</double></value>\n")
 
 
-Marshaller.dispatch[float] = dump_float
+Marshaller.dispatch[Decimal] = dump_decimal
+
 
 # Changes made to make this work with IBS
 # Written by Brian Quinlan (brian@sweetapp.com).
