@@ -2,6 +2,7 @@
 import signal
 import sys
 import os
+import subprocess
 
 sys.path.append("/usr/local/IBSng/addons/pexpect")
 import pexpect
@@ -14,15 +15,11 @@ def main():
 
 
 def doRSH(host, command, timeout):
-    child = pexpect.spawn("/usr/bin/sh", [command], timeout)
 
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    # Retrieve the output and exit code
+    output = result.stdout
     log_file = '/var/log/output.log'
-
-    # Wait for the expected output
-    child.expect(pexpect.EOF)  # This waits until the child process exits
-
-    # Retrieve the captured output
-    output = child.before.decode()  # Convert bytes to string
 
     # Print or use the captured output as needed
     print(output)
