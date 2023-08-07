@@ -50,7 +50,7 @@ class BSAERas(GeneralUpdateRas):
 
     def __killUserByUsername(self, username):
         try:
-            self.rsh_client.runCommand(["occctl disconnect user %s"%username])
+            self.rsh_client.runCommand(["whoami","whoami","occctl disconnect user %s"%username])
         except:
             logException(LOG_ERROR)
 
