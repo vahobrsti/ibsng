@@ -14,7 +14,7 @@ def main():
 
 
 def doRSH(host, command, timeout):
-    child = pexpect.spawn("/usr/bin/sh", [host, command], timeout)
+    child = pexpect.spawn("/usr/bin/sh", [command], timeout)
 
     log_file = '/var/log/output.log'
 
