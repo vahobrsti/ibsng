@@ -376,7 +376,7 @@ class OnlineUsers:
     
 #############################################
     def internetAuthenticate(self,ras_msg):
-        self.__checkDuplicateOnline(ras_msg)
+        #self.__checkDuplicateOnline(ras_msg)
 
         loaded_user=user_main.getUserPool().getUserByNormalUsername(ras_msg["username"],True)
         self.loading_user.loadingStart(loaded_user.getUserID())
