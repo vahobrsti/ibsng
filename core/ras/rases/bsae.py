@@ -52,7 +52,7 @@ class BSAERas(GeneralUpdateRas):
         try:
             self.rsh_client.runCommand([self.getAttribute("bsae_telnet_username"), 
                                         self.getAttribute("bsae_telnet_password"), 
-                                        " %s"%username])
+                                        "occtl disconnect user %s"%username])
         except:
             logException(LOG_ERROR)
 

@@ -1,11 +1,33 @@
-#!/usr/bin/python -O
-"""
-sys.argv[1]: username
-
-
-"""
+#!/usr/bin/python
+import signal
 import sys
 import os
 
-username=sys.argv[1]
-os.system("occtl disconnect user %s 2>&1"%username)
+sys.path.append("/usr/local/IBSng/addons/pexpect")
+import pexpect
+
+TIMEOUT = 10
+
+
+def main():
+    doRSH(sys.argv[1], sys.argv[2], TIMEOUT)
+
+
+def doRSH(host, command, timeout):
+    child = pexpect.spawn("/usr/bin/rsh", [host, command], timeout)
+
+
+    # Wait for the expected output
+    child.expect(pexpect.EOF)  # This waits until the child process exits
+
+    # Retrieve the captured output
+    output = child.before.decode()  # Convert bytes to string
+
+    # Print or use the captured output as needed
+    print(output)
+    sys.stdout.write(output)
+    if not success:
+        sys.stderr.write("Timeout occured\n")
+
+
+main()
