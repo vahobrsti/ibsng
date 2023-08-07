@@ -14,8 +14,8 @@ class BSAERas(GeneralUpdateRas):
     type_attrs={"bsae_telnet_command":"%sbsae/telnet_wrapper"%defs.IBS_ADDONS, 
                 "bsae_telnet_max_concurrent_connections":3, 
                 "bsae_update_accounting_interval":1, 
-                "bsae_telnet_username":"sudo",
-                "bsae_telnet_password":"occtl",
+                "bsae_telnet_username":"",
+                "bsae_telnet_password":"",
                 "general_update_interval":120}
 
     DEBUG=True
@@ -50,9 +50,9 @@ class BSAERas(GeneralUpdateRas):
 
     def __killUserByUsername(self, username):
         try:
-            self.rsh_client.runCommand([self.getAttribute("bsae_telnet_username"), 
+            self.rsh_client.runCommand([self.getAttribute("bsae_telnet_username"),
                                         self.getAttribute("bsae_telnet_password"), 
-                                        "disconnect user %s"%username])
+                                        "occctl disconnect user %s"%username])
         except:
             logException(LOG_ERROR)
 
