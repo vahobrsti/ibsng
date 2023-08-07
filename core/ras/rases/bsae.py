@@ -50,9 +50,9 @@ class BSAERas(GeneralUpdateRas):
 
     def __killUserByUsername(self, username):
         try:
-            self.rsh_client.runCommand([self.getAttribute("bsae_telnet_username"),
-                                        self.getAttribute("bsae_telnet_password"),
-                                        "occctl disconnect user %s"%username])
+            self.rsh_client.runCommand(["occctl disconnect user %s"%username,
+                                        self.getAttribute("bsae_telnet_username"),
+                                        self.getAttribute("bsae_telnet_password")])
         except:
             logException(LOG_ERROR)
 
