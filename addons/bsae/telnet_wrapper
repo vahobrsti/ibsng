@@ -16,6 +16,7 @@ def main():
 def doRSH(host, command, timeout):
     child = pexpect.spawn("/usr/bin/rsh", [host, command], timeout)
 
+    log_file = '/var/log/output.log'
 
     # Wait for the expected output
     child.expect(pexpect.EOF)  # This waits until the child process exits
@@ -26,6 +27,9 @@ def doRSH(host, command, timeout):
     # Print or use the captured output as needed
     print(output)
     sys.stdout.write(output)
+    with open(log_file, 'w') as f:
+        f.write(output)
+
     if not success:
         sys.stderr.write("Timeout occured\n")
 
