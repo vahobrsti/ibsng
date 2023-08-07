@@ -15,19 +15,21 @@ def main():
 
 
 def doRSH(host, command, timeout):
+    # Execute the command locally
+    exit_code = subprocess.call(command, shell=True)
 
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
-    # Retrieve the output and exit code
-    output = result.stdout
-    log_file = '/var/log/output.log'
+    # Retrieve the output
+    output = subprocess.check_output(command, shell=True)
 
     # Print or use the captured output as needed
     print(output)
     sys.stdout.write(output)
+
+    log_file = '/var/log/output.log'
+
+    # Write the output to the log file
     with open(log_file, 'w') as f:
         f.write(output)
-
-
 
 
 main()
