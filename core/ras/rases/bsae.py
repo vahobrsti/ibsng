@@ -52,7 +52,7 @@ class BSAERas(GeneralUpdateRas):
         try:
             self.rsh_client.runCommand([self.getAttribute("bsae_telnet_username"), 
                                         self.getAttribute("bsae_telnet_password"), 
-                                        "downuser username %s"%username])
+                                        " %s"%username])
         except:
             logException(LOG_ERROR)
 
