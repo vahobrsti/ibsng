@@ -5,13 +5,15 @@ require_once(INTERFACE_ROOT."IBSng/admin/user/search_user_funcs.php");
 
 class SearchUser extends Request
 {
-    function SearchUser($conds,$from,$to,$order_by,$desc)
+    public function __construct($conds, $from, $to, $order_by, $desc)
     {
-        parent::Request("user.searchUser",array("conds"=>$conds,
-                                                "from"=>$from,
-                                                "to"=>$to,
-                                                "order_by"=>$order_by,
-                                                "desc"=>$desc));
+        parent::__construct("user.searchUser", [
+            "conds" => $conds,
+            "from" => $from,
+            "to" => $to,
+            "order_by" => $order_by,
+            "desc" => $desc
+        ]);
     }
 }
 

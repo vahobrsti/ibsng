@@ -3,12 +3,12 @@ require_once("init.php");
 
 class AddNewAdmin extends Request
 {
-    function AddNewAdmin($username,$password1,$password2,$name,$comment)
+    public function __construct($username,$password1,$password2,$name,$comment)
     {
         $this->password1=$password1;
         $this->password2=$password2;
 
-        parent::Request("admin.addNewAdmin",array("username"=>$username,
+        parent::__construct("admin.addNewAdmin",array("username"=>$username,
                                                   "password"=>$password1,
                                                   "name"=>$name,
                                                   "comment"=>$comment
