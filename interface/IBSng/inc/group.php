@@ -3,56 +3,61 @@ require_once("init.php");
 
 class AddNewGroup extends Request
 {
-    function AddNewGroup($name,$comment)
+    function __construct($name, $comment)
     {
-        parent::Request("group.addNewGroup",array("group_name"=>$name,
-                                                 "comment"=>$comment,
-                                                 ));
+        parent::__construct("group.addNewGroup", array(
+            "group_name" => $name,
+            "comment" => $comment,
+        ));
     }
 }
 
 class ListGroups extends Request
 {
-    function ListGroups()
+    function __construct()
     {
-        parent::Request("group.listGroups",array());
+        parent::__construct("group.listGroups", array());
     }
 }
 
 class GetGroupInfo extends Request
 {
-    function GetGroupInfo($group_name)
+    function __construct($group_name)
     {
-        parent::Request("group.getGroupInfo",array("group_name"=>$group_name));
+        parent::__construct("group.getGroupInfo", array("group_name" => $group_name));
     }
 }
 
 class UpdateGroup extends Request
 {
-    function UpdateGroup($group_id,$group_name,$comment,$owner_name)
+    function __construct($group_id, $group_name, $comment, $owner_name)
     {
-        parent::Request("group.updateGroup",array("group_id"=>$group_id,
-                                                  "group_name"=>$group_name,
-                                                  "comment"=>$comment,
-                                                  "owner_name"=>$owner_name));
+        parent::__construct("group.updateGroup", array(
+            "group_id" => $group_id,
+            "group_name" => $group_name,
+            "comment" => $comment,
+            "owner_name" => $owner_name,
+        ));
     }
 }
 
 class UpdateGroupAttrs extends Request
 {
-    function UpdateGroupAttrs($group_name,$attrs,$to_del_attrs)
+    function __construct($group_name, $attrs, $to_del_attrs)
     {
-        parent::Request("group.updateGroupAttrs",array("group_name"=>$group_name,
-                                                       "attrs"=>$attrs,
-                                                       "to_del_attrs"=>$to_del_attrs));
+        parent::__construct("group.updateGroupAttrs", array(
+            "group_name" => $group_name,
+            "attrs" => $attrs,
+            "to_del_attrs" => $to_del_attrs,
+        ));
     }
 }
 
 class DelGroup extends Request
 {
-    function DelGroup($group_name)
+    function __construct($group_name)
     {
-        parent::Request("group.delGroup",array("group_name"=>$group_name));
+        parent::__construct("group.delGroup", array("group_name" => $group_name));
     }
 }
 
@@ -66,18 +71,20 @@ function getAllGroupInfos()
     $group_infos=array();
     $group_names_request=new ListGroups();
     list($success,$group_names)=$group_names_request->send();
-    if(!$success)
-        return array(FALSE,$group_names);
+    if(!$success) {
+        return array(FALSE, $group_names);
+    }
+
     $group_info_request=new GetGroupInfo("");
     foreach($group_names as $group_name)
     {
         $group_info_request->changeParam("group_name",$group_name);
         list($success,$group_info)=$group_info_request->send();
-        if(!$success)
-            return array(FALSE,$group_info);
+        if(!$success) {
+            return array(FALSE, $group_info);
+        }
         $group_infos[]=$group_info;
     }
     return array(TRUE,$group_infos);
 }
 
-?>
