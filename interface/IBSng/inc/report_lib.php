@@ -2,19 +2,17 @@
 
 class ReportHelper
 {
-    function ReportHelper($default_from=0,$default_to=30,$default_order_by="",$default_desc=TRUE)
+    function __construct($default_from = 0, $default_to = 30, $default_order_by = "", $default_desc = TRUE)
     {
-        $this->default_from=$default_from;
-        $this->default_to=$default_to;
+        $this->default_from = $default_from;
+        $this->default_to = $default_to;
+        $this->default_order_by = $default_order_by;
+        $this->default_desc = $default_desc;
 
-        $this->default_order_by=$default_order_by;
-        $this->default_desc=$default_desc;
-
-        $this->order_by_key="order_by";
-        $this->desc_key="desc";
+        $this->order_by_key = "order_by";
+        $this->desc_key = "desc";
 
         $this->updateToRequest();
-
     }
 
     function getFrom()
@@ -91,13 +89,14 @@ class ReportHelper
 
 class ReportCollector
 {
-    function ReportCollector($unset_from_request=FALSE)
-    {/*
-        $unset_from_request: Delete Condition that has been collected from request.
-                    This is essential for situations where request keys would cause conflict in next page
-    */
-        $this->unset_from_request=$unset_from_request;  
-        $this->conds=array();
+    function __construct($unset_from_request = false)
+    {
+        /*
+            $unset_from_request: Delete Condition that has been collected from request.
+            This is essential for situations where request keys would cause conflict in the next page
+        */
+        $this->unset_from_request = $unset_from_request;
+        $this->conds = array();
     }
 
     function getConds()
@@ -112,7 +111,7 @@ class ReportCollector
         $this->conds[$name]=$value;
     }
 
-    function __addFromRequest($request_key)
+    protected function addFromRequest($request_key)
     {
         $this->addToConds($request_key,$_REQUEST[$request_key]);
 
@@ -125,7 +124,7 @@ class ReportCollector
         add $name from request to conds, if $name value is not equal $value
     */
         if(isInRequest($name) and $_REQUEST[$name]!=$value)
-            $this->__addFromRequest($name);
+            $this->addFromRequest($name);
     }
 
     function addToCondsFromRequest($not_empty=TRUE)
@@ -145,7 +144,7 @@ class ReportCollector
                 return;
         }
         foreach($arg_list as $arg)
-            $this->__addFromRequest($arg);
+            $this->addFromRequest($arg);
     }
 
     function addToCondsFromCheckBoxRequest($prefix,$cond_name)
