@@ -3,10 +3,10 @@ require_once("init.php");
 require_once(IBSINC."xmlrpc.php");
 require_once(IBSINC."smarty.php");
 
-define("ADMIN_AUTH_TYPE","ADMIN");
-define("NORMAL_USER_AUTH_TYPE","NORMAL_USER");
-define("VOIP_USER_AUTH_TYPE","VOIP_USER");
-define("ANONYMOUS_AUTH_TYPE","ANONYMOUS");
+define("ADMIN_AUTH_TYPE", "ADMIN", true);
+define("NORMAL_USER_AUTH_TYPE", "NORMAL_USER", true);
+define("VOIP_USER_AUTH_TYPE", "VOIP_USER", true);
+define("ANONYMOUS_AUTH_TYPE", "ANONYMOUS", true);
 
 function auth_init()
 {
@@ -85,20 +85,20 @@ function showAccessDenied($auth_type)
 
 class Auth
 {
-    
-    function Auth($auth_name,$auth_pass,$auth_type)
-    {
-        $this->auth_name=$auth_name;
-        $this->auth_pass=$auth_pass;
-        $this->auth_type=$auth_type;
-        list($success,$msg)=$this->__authenticateUser();
-        $this->__saveResult($success,$msg);
-        if ($success)
-            $this->__addToSession();
 
+    function __construct($auth_name, $auth_pass, $auth_type)
+    {
+        $this->auth_name = $auth_name;
+        $this->auth_pass = $auth_pass;
+        $this->auth_type = $auth_type;
+        list($success, $msg) = $this->authenticateUser();
+        $this->saveResult($success, $msg);
+        if ($success) {
+            $this->addToSession();
+        }
     }
 
-    function __authenticateUser()
+    protected function authenticateUser()
     {/*
         Authenticate the user, based on $this->auth_name , $this->auth_pass, $this->auth_type
         return array of (is_successfull,msg)
@@ -107,8 +107,8 @@ class Auth
      */
         if($this->auth_type!=ANONYMOUS_AUTH_TYPE)
         {
-            $this->__checkPrevAuthType();
-            list($success,$msg)=$this->__sendAuthRequest();
+            $this->checkPrevAuthType();
+            list($success,$msg)=$this->sendAuthRequest();
             return array($success,$msg);
         }
         else
@@ -116,7 +116,7 @@ class Auth
     }
 
     
-    function __checkPrevAuthType()
+    protected function checkPrevAuthType()
     {/* Check if user has previously auth object in session
         When user tries an auth request, he must be anononymous, cause authenticated user
         doesn't need to authenticate again, so this means logout (clear authentication) user when he tries 
@@ -130,13 +130,13 @@ class Auth
         }
     }
     
-    function __addToSession()
+    protected function addToSession()
     {
         sessionRegister("auth",$this);
     }
 
 
-    function __sendAuthRequest()
+    protected function sendAuthRequest()
     {
         $request=new Request("login.login",array("login_auth_name"=>$this->auth_name,
                                                  "login_auth_pass"=>$this->auth_pass,
@@ -175,7 +175,7 @@ class Auth
 
     }
     
-    function __saveResult($success,$msg)
+    protected function saveResult($success, $msg)
     {
         $this->success=$success;
         $this->msg=$msg;
@@ -194,5 +194,3 @@ class Auth
 
 
 }
-
-?>
