@@ -8,7 +8,7 @@ class Request
      other requests may inherit from this class but don't forget to call parent::Request() in constructor
   */
 
-    function Request($server_method,$params_arr)
+    function __construct($server_method,$params_arr)
     {
         $this->server_method=$server_method;
         $this->__addAuthParams($params_arr);

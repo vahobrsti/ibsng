@@ -110,15 +110,21 @@ function extractHostAndPathFromURL($url)
  * */
 function getLoginPageURI()
 {
-	// can getCurrentHostAndURI return any string like this 'http://' ??
-	// get pattern for string like this : parspooyesh.com/(XXX|IBSng)/admin/
-	eregi("^([^/]+)/([^/]+)/([^/]+)", getCurrentHostAndURI(), $matches);
-	$size = count($matches);
+    // can getCurrentHostAndURI return any string like this 'http://' ??
+    // get pattern for string like this: parspooyesh.com/(XXX|IBSng)/admin/
+    $currentHostAndURI = getCurrentHostAndURI();
+    $pattern = "/^([^\/]+)\/([^\/]+)\/([^\/]+)/i";
 
-	$extracted_uri = "";
-	if ($size == 4)
-		$extracted_uri = '/'.$matches[2].'/'.$matches[3].'/';
+    if (preg_match($pattern, $currentHostAndURI, $matches)) {
+        $size = count($matches);
 
-	return $extracted_uri;
+        $extracted_uri = "";
+        if ($size == 4) {
+            $extracted_uri = '/' . $matches[2] . '/' . $matches[3] . '/';
+        }
+
+        return $extracted_uri;
+    }
+
+    return "";
 }
-?>

@@ -15,34 +15,30 @@ class Error
      key shows what is error about and msg is the error message for this situation
 
   */
-    function Error($err_str)
+    public function __construct($err_str)
     {
-        $this->raw_err_str=$err_str;
-        $this->err_msgs=array();
-        $this->err_keys=array();
-        $this->__splitErrorLines();
-    
+        $this->raw_err_str = $err_str;
+        $this->err_msgs = array();
+        $this->err_keys = array();
+        $this->splitErrorLines();
     }
 
-    function __splitErrorLines()
+    protected function splitErrorLines()
     {
-        $err_lines=split("\n",$this->raw_err_str);
-        foreach($err_lines as $line)
-            $this->__splitError($line);
+        $err_lines = preg_split("/\n/", $this->raw_err_str);
+        foreach ($err_lines as $line)
+            $this->splitError($line);
     }
 
-    function __splitError($err_str)
+    protected function splitError($err_str)
     {
-        $err_sp=split("\|",$err_str,2);
-        if(sizeof($err_sp)==2)
-        {
-            $this->err_msgs[]=$err_sp[1];
-            $this->err_keys[]=$err_sp[0];
-        }    
-        else
-        {
-            $this->err_msgs[]=$err_str;
-            $this->err_keys[]="";
+        $err_sp = explode('|', $err_str, 2);
+        if (count($err_sp) == 2) {
+            $this->err_msgs[] = $err_sp[1];
+            $this->err_keys[] = $err_sp[0];
+        } else {
+            $this->err_msgs[] = $err_str;
+            $this->err_keys[] = "";
         }
     }
 
@@ -82,7 +78,6 @@ function error($error_key)
     else
         return new Error($ERRORS["INVALID_ERROR"]);
 }
-
 
 
 ?>
