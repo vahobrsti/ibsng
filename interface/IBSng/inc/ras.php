@@ -3,82 +3,88 @@ require_once("init.php");
 
 class AddNewRas extends Request
 {
-    function AddNewRas($ras_ip,$ras_description,$ras_type,$radius_secret,$comment)
+    public function __construct($ras_ip, $ras_description, $ras_type, $radius_secret, $comment)
     {
-        parent::Request("ras.addNewRas",array("ras_ip"=>$ras_ip,
-                                              "ras_description"=>$ras_description,
-                                              "ras_type"=>$ras_type,
-                                              "radius_secret"=>$radius_secret,
-                                              "comment"=>$comment));
+        parent::__construct("ras.addNewRas", [
+            "ras_ip" => $ras_ip,
+            "ras_description" => $ras_description,
+            "ras_type" => $ras_type,
+            "radius_secret" => $radius_secret,
+            "comment" => $comment
+        ]);
     }
 }
 
 class GetRasInfo extends Request
 {
-    function GetRasInfo($ras_ip)
+    public function __construct($ras_ip)
     {
-        parent::Request("ras.getRasInfo",array("ras_ip"=>$ras_ip));
+        parent::__construct("ras.getRasInfo", [
+            "ras_ip" => $ras_ip
+        ]);
     }
 }
 
 class GetActiveRasIPs extends Request
 {
-    function GetActiveRasIPs()
+    public function __construct()
     {
-        parent::Request("ras.getActiveRasIPs",array());
+        parent::__construct("ras.getActiveRasIPs", []);
     }
 }
 
 class GetRasDescriptions extends Request
 {
-    function GetRasDescriptions()
+    public function __construct()
     {
-        parent::Request("ras.getRasDescriptions",array());
+        parent::__construct("ras.getRasDescriptions", []);
     }
 }
 
 class GetInActiveRases extends Request
 {
-    function GetInActiveRases()
+    public function __construct()
     {
-        parent::Request("ras.getInActiveRases",array());
+        parent::__construct("ras.getInActiveRases", []);
     }
 }
 
 class GetRasTypes extends Request
 {
-    function GetRasTypes()
+    public function __construct()
     {
-        parent::Request("ras.getRasTypes",array());
+        parent::__construct("ras.getRasTypes", []);
     }
 }
 
 class GetRasAttributes extends Request
 {
-    function GetRasAttributes($ras_ip)
+    public function __construct($ras_ip)
     {
-        parent::Request("ras.getRasAttributes",array("ras_ip"=>$ras_ip));
+        parent::__construct("ras.getRasAttributes", ["ras_ip" => $ras_ip]);
     }
 }
 
 class GetRasPorts extends Request
 {
-    function GetRasPorts($ras_ip)
+    public function __construct($ras_ip)
     {
-        parent::Request("ras.getRasPorts",array("ras_ip"=>$ras_ip));
+        parent::__construct("ras.getRasPorts", ["ras_ip" => $ras_ip]);
     }
 }
 
 class UpdateRasInfo extends Request
 {
-    function UpdateRasInfo($ras_id,$ras_ip,$ras_description,$ras_type,$radius_secret,$comment)
+    public function __construct($ras_id, $ras_ip, $ras_description, $ras_type, $radius_secret, $comment)
     {
-        parent::Request("ras.updateRasInfo",array("ras_id"=>$ras_id,
-                                              "ras_ip"=>$ras_ip,
-                                              "ras_description"=>$ras_description,
-                                              "ras_type"=>$ras_type,
-                                              "radius_secret"=>$radius_secret,
-                                              "comment"=>$comment));
+        parent::__construct("ras.updateRasInfo", [
+            "ras_id" => $ras_id,
+            "ras_ip" => $ras_ip,
+            "ras_description" => $ras_description,
+            "ras_type" => $ras_type,
+            "radius_secret" => $radius_secret,
+            "comment" => $comment
+        ]);
     }
 }
 
@@ -86,117 +92,119 @@ class UpdateRasInfo extends Request
 
 class UpdateRasAttributes extends Request
 {
-    function UpdateRasAttributes($ras_ip,$attrs)
+    public function __construct($ras_ip, $attrs)
     {
-        parent::Request("ras.updateAttributes",array("ras_ip"=>$ras_ip,
-                                              "attrs"=>$attrs));
+        parent::__construct("ras.updateAttributes", [
+            "ras_ip" => $ras_ip,
+            "attrs" => $attrs
+        ]);
     }
 }
 
 class ResetRasAttributes extends Request
 {
-    function ResetRasAttributes($ras_ip)
+    public function __construct($ras_ip)
     {
-        parent::Request("ras.resetAttributes",array("ras_ip"=>$ras_ip));
+        parent::__construct("ras.resetAttributes", ["ras_ip" => $ras_ip]);
     }
 }
 
 class AddRasPort extends Request
 {
-    function AddRasPort($ras_ip,$port_name,$type,$phone,$comment)
+    public function __construct($ras_ip, $port_name, $type, $phone, $comment)
     {
-        parent::Request("ras.addPort",array("ras_ip"=>$ras_ip,
-                                                    "port_name"=>$port_name,
-                                                    "phone"=>$phone,
-                                                    "type"=>$type,
-                                                    "comment"=>$comment
-                                                    ));
+        parent::__construct("ras.addPort", [
+            "ras_ip" => $ras_ip,
+            "port_name" => $port_name,
+            "phone" => $phone,
+            "type" => $type,
+            "comment" => $comment
+        ]);
     }
 }
 
 class GetPortTypes extends Request
 {
-    function GetPortTypes()
+    public function __construct()
     {
-        parent::Request("ras.getPortTypes",array());
+        parent::__construct("ras.getPortTypes", []);
     }
 }
 
 class DelRasPort extends Request
 {
-    function DelRasPort($ras_ip,$port_name)
+    public function __construct($ras_ip, $port_name)
     {
-        parent::Request("ras.delPort",array("ras_ip"=>$ras_ip,
-                                                    "port_name"=>$port_name
-                                                    ));
+        parent::__construct("ras.delPort", [
+            "ras_ip" => $ras_ip,
+            "port_name" => $port_name
+        ]);
     }
 }
 
 class GetRasPortInfo extends Request
 {
-    function GetRasPortInfo($ras_ip,$port_name)
+    public function __construct($ras_ip, $port_name)
     {
-        parent::Request("ras.getRasPortInfo",array("ras_ip"=>$ras_ip,
-                                                    "port_name"=>$port_name
-                                                    ));
+        parent::__construct("ras.getRasPortInfo", [
+            "ras_ip" => $ras_ip,
+            "port_name" => $port_name
+        ]);
     }
 }
 
 class UpdateRasPort extends Request
 {
-    function UpdateRasPort($ras_ip,$port_name,$type,$phone,$comment)
+    public function __construct($ras_ip, $port_name, $type, $phone, $comment)
     {
-        parent::Request("ras.updatePort",array("ras_ip"=>$ras_ip,
-                                                    "port_name"=>$port_name,
-                                                    "phone"=>$phone,
-                                                    "type"=>$type,
-                                                    "comment"=>$comment
-                                                    ));
+        parent::__construct("ras.updatePort", [
+            "ras_ip" => $ras_ip,
+            "port_name" => $port_name,
+            "phone" => $phone,
+            "type" => $type,
+            "comment" => $comment
+        ]);
     }
 }
 
 
 class DeActiveRas extends Request
 {
-    function DeActiveRas($ras_ip)
+    public function __construct($ras_ip)
     {
-        parent::Request("ras.deActiveRas",array("ras_ip"=>$ras_ip));
+        parent::__construct("ras.deactivateRas", ["ras_ip" => $ras_ip]);
     }
 }
 
 class ReActiveRas extends Request
 {
-    function ReActiveRas($ras_ip)
+    public function __construct($ras_ip)
     {
-        parent::Request("ras.reActiveRas",array("ras_ip"=>$ras_ip));
+        parent::__construct("ras.reactivateRas", ["ras_ip" => $ras_ip]);
     }
 }
 
 class GetRasIPpools extends Request
 {
-    function GetRasIPpools($ras_ip)
+    public function __construct($ras_ip)
     {
-        parent::Request("ras.getRasIPpools",array("ras_ip"=>$ras_ip));
+        parent::__construct("ras.getRasIpPools", ["ras_ip" => $ras_ip]);
     }
 }
 
 class AddIPpoolToRas extends Request
 {
-    function AddIPpoolToRas($ras_ip,$ippool_name)
+    public function __construct($ras_ip, $ippool_name)
     {
-        parent::Request("ras.addIPpoolToRas",array("ras_ip"=>$ras_ip,
-                                                   "ippool_name"=>$ippool_name
-                                                   ));
+        parent::__construct("ras.addIpPoolToRas", ["ras_ip" => $ras_ip, "ippool_name" => $ippool_name]);
     }
 }
 
 class DelIPpoolFromRas extends Request
 {
-    function DelIPpoolFromRas($ras_ip,$ippool_name)
+    public function __construct($ras_ip, $ippool_name)
     {
-        parent::Request("ras.delIPpoolFromRas",array("ras_ip"=>$ras_ip,
-                                                     "ippool_name"=>$ippool_name
-                                                     ));
+        parent::__construct("ras.delIpPoolFromRas", ["ras_ip" => $ras_ip, "ippool_name" => $ippool_name]);
     }
 }
 
@@ -205,21 +213,31 @@ function getAllActiveRasInfos()
     /*
         return a list of associative dictionaries containing all active ras informations
     */
-    $ras_infos=array();
-    $ras_ips_request=new GetActiveRasIPs();
-    list($success,$ras_ips)=$ras_ips_request->send();
-    if(!$success)
-        return array(FALSE,$ras_ips);
-    $ras_info_request=new GetRasInfo("");
-    foreach($ras_ips as $ras_ip)
-    {
-        $ras_info_request->changeParam("ras_ip",$ras_ip);
-        list($success,$ras_info)=$ras_info_request->send();
-        if(!$success)
-            return array(FALSE,$ras_info);
-        $ras_infos[]=$ras_info;
+    /*
+        return a list of associative dictionaries containing all active ras informations
+    */
+    $ras_infos = [];
+
+    $ras_ips_request = new GetActiveRasIPs();
+    list($success_ips, $ras_ips) = $ras_ips_request->send();
+
+    if (!$success_ips) {
+        return [false, $ras_ips];
     }
-    return array(TRUE,$ras_infos);
+
+    $ras_info_request = new GetRasInfo("");
+
+    foreach ($ras_ips as $ras_ip) {
+        $ras_info_request->changeParam("ras_ip", $ras_ip);
+        list($success_info, $ras_info) = $ras_info_request->send();
+
+        if (!$success_info) {
+            return [false, $ras_info];
+        }
+
+        $ras_infos[] = $ras_info;
+    }
+
+    return [true, $ras_infos];
 }
 
-?>
