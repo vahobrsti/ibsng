@@ -3,37 +3,44 @@ require_once("init.php");
 
 class GetRealTimeSnapShot extends Request
 {
-    function GetRealTimeSnapShot($name)
+    public function __construct($name)
     {
-        parent::Request("snapshot.getRealTimeSnapShot",array("name"=>$name));
+        parent::__construct("snapshot.getRealTimeSnapShot", [
+            "name" => $name
+        ]);
     }
 }
 
 class GetBWSnapShotForUser extends Request
 {
-    function GetBWSnapShotForUser($user_id,$ras_ip,$unique_id_val)
+    public function __construct($user_id, $ras_ip, $unique_id_val)
     {
-        parent::Request("snapshot.getBWSnapShotForUser",array("user_id"=>$user_id,
-                                                              "ras_ip"=>$ras_ip,
-                                                              "unique_id_val"=>$unique_id_val));
+        parent::__construct("snapshot.getBWSnapShotForUser", [
+            "user_id" => $user_id,
+            "ras_ip" => $ras_ip,
+            "unique_id_val" => $unique_id_val
+        ]);
     }
 }
 
 class GetOnlinesSnapShot extends Request
 {
-    function GetOnlinesSnapShot($conds,$type)
+    public function __construct($conds, $type)
     {
-        parent::Request("snapshot.getOnlinesSnapShot",array("conds"=>$conds,
-                                                           "type"=>$type));
+        parent::__construct("snapshot.getOnlinesSnapShot", [
+            "conds" => $conds,
+            "type" => $type
+        ]);
     }
 }
 
 class GetBWSnapShot extends Request
 {
-    function GetBWSnapShot($conds)
+    public function __construct($conds)
     {
-        parent::Request("snapshot.getBWSnapShot",array("conds"=>$conds));
+        parent::__construct("snapshot.getBWSnapShot", [
+            "conds" => $conds
+        ]);
     }
 }
 
-?>
