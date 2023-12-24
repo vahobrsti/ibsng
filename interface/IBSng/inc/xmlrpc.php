@@ -6,63 +6,64 @@ require_once(IBSINC."lib.php");
 
 class IBSxmlrpc
 {
-    function IBSxmlrpc($server_ip=XMLRPC_SERVER_IP,$server_port=XMLRPC_SERVER_PORT)
+    protected  $client;
+
+    public function __construct($server_ip = XMLRPC_SERVER_IP, $server_port = XMLRPC_SERVER_PORT)
     {
-    /*
-        $server_ip: xml rpc server ip address
-        $server_port: xml rpc serer port
-    */
-        $this->client=new xmlrpc_client("/",$server_ip,$server_port);
-        $this->client->setDebug(FALSE);
+        /*
+            $server_ip: xml rpc server ip address
+            $server_port: xml rpc serer port
+        */
+        $this->client = new xmlrpc_client("/", $server_ip, $server_port);
+        $this->client->setDebug(false);
     }
 
-    function sendRequest($server_method,$params_arr,$timeout=XMLRPC_TIMEOUT)
+    function sendRequest($server_method,$params_arr,$timeout=XMLRPC_TIMEOUT): array
     {
     /*
         Send request to $server_method, with parameters $params_arr
         $server_method: method to call ex admin.addNewAdmin
         $params_arr: an array of parameters
     */
-        $xml_rpc_msg=$this->__createXmlRpcMsg($server_method,$params_arr);
-        $response=$this->__sendXmlRpcRequest($xml_rpc_msg,$timeout);
-        $result=$this->__returnResponse($response);
+        $xml_rpc_msg=$this->createXmlRpcMsg($server_method,$params_arr);
+        $response=$this->sendXmlRpcRequest($xml_rpc_msg,$timeout);
+        $result=$this->returnResponse($response);
         unset($response);
         return $result;
     }
 
-    function __createXmlRpcMsg($server_method,$params_arr)
+    protected function createXmlRpcMsg($server_method, $params_arr): xmlrpcmsg
     {
         $xml_val=php_xmlrpc_encode($params_arr);
         $xml_msg=new xmlrpcmsg($server_method);
         $xml_msg->addParam($xml_val);
         return $xml_msg;
     }
-    
-    function __sendXmlRpcRequest($xml_rpc_msg,$timeout)
+
+    protected function sendXmlRpcRequest($xml_rpc_msg, $timeout)
     {
         return $this->client->send($xml_rpc_msg,$timeout);
     }
     
-    function __returnResponse($response)
+    protected function returnResponse($response): array
     {
-        if ($response==FALSE)
-            return $this->__returnError("Error occured while connecting to server");
-        else if ($response->faultCode() != 0)
-            return $this->__returnError($response->faultString());
-        else
-            return $this->__returnSuccess($response->value());
+        if (!$response) {
+            return $this->returnError("Error occurred while connecting to the server");
+        } elseif ($response->faultCode() != 0) {
+            return $this->returnError($response->faultString());
+        } else {
+            return $this->returnSuccess($response->value());
+        }
     }
 
-    function __returnError($err_str)
+    function returnError($err_str): array
     {
-        return array(FALSE,new Error($err_str));
+        return [false, new Error($err_str)];
     }
     
-    function __returnSuccess($value)
+    function returnSuccess($value): array
     {
-        return array(TRUE,php_xmlrpc_decode($value));
+        return [true, php_xmlrpc_decode($value)];
     }
     
 }
-
-?>
