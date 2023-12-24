@@ -3,10 +3,10 @@ require_once("init.php");
 require_once(IBSINC."xmlrpc.php");
 require_once(IBSINC."smarty.php");
 
-define("ADMIN_AUTH_TYPE", "ADMIN", true);
-define("NORMAL_USER_AUTH_TYPE", "NORMAL_USER", true);
-define("VOIP_USER_AUTH_TYPE", "VOIP_USER", true);
-define("ANONYMOUS_AUTH_TYPE", "ANONYMOUS", true);
+define("ADMIN_AUTH_TYPE", "ADMIN");
+define("NORMAL_USER_AUTH_TYPE", "NORMAL_USER");
+define("VOIP_USER_AUTH_TYPE", "VOIP_USER");
+define("ANONYMOUS_AUTH_TYPE", "ANONYMOUS");
 
 function auth_init()
 {
