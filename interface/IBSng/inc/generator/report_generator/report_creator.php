@@ -161,7 +161,6 @@ class ReportCreator extends Creator {
 	 * 
 	 * register variable with it's value
 	 * @param string $var
-	 * @param boolean $value value for $var
 	 * */
 	function register($var, $value) {
 		$this->variables[$var] = $value;
