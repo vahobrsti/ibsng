@@ -1,39 +1,35 @@
 <?php
+
 /**
- * 
+ *
  * creator.php
- * 
+ *
  * */
 class Creator
 {
+    /** @var Controller|null */
+    protected $controller;
+
     /**
-     * will initialize variables and will call at
-     * first time.
-     * @access public
-     * @author hossein zolfi
-     * */
-    function init()
+     * Initializes variables.
+     */
+    public function init()
     {
-        $this->controller = NULL;
+        $this->controller = null;
     }
-    
-    /**
-     * register controller
-     * @param Controller $controller  
-     * */
-    function registerController (& $controller)
+
+
+    public function registerController( &$controller)
     {
-		$this->controller = & $controller;
+        $this->controller = &$controller;
     }
 
     /**
-     * this method will be called at end of generation
-     * you can override this.
-     * @access public
-     * @author hossein zolfi
-     * */
-    function dispose()
+     * This method will be called at the end of generation.
+     * You can override this in subclasses.
+     */
+    public function dispose()
     {
+        // Implementation in subclasses if needed.
     }
 }
-?>
