@@ -8,18 +8,29 @@ require_once (IBSINC."generator/header_generator.php");
  */
 class OutputCSVGenerator extends Generator
 {
-	/**
-	 * @access public
-	 */
-	function OutputCSVGenerator($csv, $file_name)
-	{
-		HeaderGenerator :: assignHeader("TEXT", $file_name);
-		$this->csv = new CSVGenerator($csv);
-	}
+    /**
+     * @var CSVGenerator
+     */
+    protected $csv;
 
-	function doArray($array)
-	{
-		$this->csv->doArray($array);
-	}
+    /**
+     * OutputCSVGenerator constructor.
+     *
+     * @param string $csv
+     * @param string $file_name
+     */
+    public function __construct($csv, $file_name)
+    {
+        HeaderGenerator::assignHeader("TEXT", $file_name);
+        $this->csv = new CSVGenerator($csv);
+    }
+
+    /**
+     * @param array $array
+     */
+    public function doArray($array)
+    {
+        $this->csv->doArray($array);
+    }
 }
-?>
+
