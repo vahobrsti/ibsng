@@ -8,36 +8,35 @@ require_once (IBSINC."generator/report_generator/xml_report_generator.php");
 
 class ReportGeneratorController extends GeneratorController
 {
-	function ReportGeneratorController()
-	{
-		parent :: GeneratorController ();
-	}
+    function __construct()
+    {
+        parent::__construct();
+    }
 
-	function init()
-	{
-		parent :: init();
+    function init()
+    {
+        parent::init();
 
-		$this->output_filename = "reports";
-		$this->view_default_selected_name = "XML";
-		$this->registerGenerator("XML", "createXmlGenerator");
-		$this->registerGenerator("CSV (TAB)", "createTabCSVGenerator");
-		$this->registerGenerator("CSV (Semi Colon)", "createSemiColonCSVGenerator");
-		$this->registerGenerator("CSV (Comma)", "createCommaCSVGenerator");
-	}
+        $this->output_filename = "reports";
+        $this->view_default_selected_name = "XML";
+        $this->registerGenerator("XML", "createXmlGenerator");
+        $this->registerGenerator("CSV (TAB)", "createTabCSVGenerator");
+        $this->registerGenerator("CSV (Semi Colon)", "createSemiColonCSVGenerator");
+        $this->registerGenerator("CSV (Comma)", "createCommaCSVGenerator");
+    }
 
-	function getWebGenerator ()
-	{
-	    $generators = $this->getGenerators();
-	    $generator = NULL;
+    function getWebGenerator()
+    {
+        $generators = $this->getGenerators();
+        $generator = NULL;
 
-	    if (isset ($generators["WEB"]))
-	    {
-	        $generator = & $generators["WEB"]();
-	        $generator->registerController($this);
-	    }
-	    	
-	    return $generator;
-	}
+        if (isset($generators["WEB"])) {
+            $generator = $generators["WEB"]();
+            $generator->registerController($this);
+        }
+
+        return $generator;
+    }
 
     /**
      * view output
@@ -48,22 +47,21 @@ class ReportGeneratorController extends GeneratorController
         $generator_index = isset($_REQUEST["view_options"]) ? $_REQUEST["view_options"] : NULL;
         $ret = $this->view_default_selected_name;
 
-        if ($generator_index !== NULL)
-        	$ret = $generators_name[(int)$generator_index];
+        if ($generator_index !== NULL) {
+            $ret = $generators_name[(int)$generator_index];
+        }
 
         return $ret;
     }
 
 	function getGenerator()
 	{
-		$gen = NULL;
+        $gen_func = $this->__generators[$this->getViewOuputSelectedName()];
+        $gen = $gen_func();
+        $gen->registerController($this);
 
-		$gen_func = $this->__generators[$this->getViewOuputSelectedName()];
-		eval("\$gen = {$gen_func} ();");
-		$gen->registerController ($this);
-
-		return $gen;
-	}
+        return $gen;
+    }
 }
 
 function createXmlGenerator()
@@ -85,4 +83,4 @@ function createSemiColonCSVGenerator()
 {
 	return new CSVReportGenerator(";");
 }
-?>
+
