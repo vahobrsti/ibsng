@@ -7,28 +7,52 @@ require_once (IBSINC."generator/generator.php");
  */
 class XmlGenerator extends Generator
 {
-	/**
-	 * @access public
-	 */
-	function XmlGenerator($root, $element)
-	{
-		$this->root = $root;
-		$this->element = $element;
-	}
-	function doArray($array)
-	{
-		return "<{$this->element}>".convDicToXML($array)."</{$this->element}>";
-	}
+    /**
+     * @var string
+     */
+    protected $root;
 
-	function init()
-	{
-		return "<{$this->root}>";
-	}
+    /**
+     * @var string
+     */
+    protected $element;
 
-	function dispose()
-	{
-		return "</{$this->root}>";
-	}
+    /**
+     * XmlGenerator constructor.
+     *
+     * @param string $root
+     * @param string $element
+     */
+    public function __construct($root, $element)
+    {
+        $this->root = $root;
+        $this->element = $element;
+    }
 
+    /**
+     * @param array $array
+     *
+     * @return string
+     */
+    public function doArray($array)
+    {
+        return "<{$this->element}>" . convDicToXML($array) . "</{$this->element}>";
+    }
+
+    /**
+     * @return string
+     */
+    public function init()
+    {
+        return "<{$this->root}>";
+    }
+
+    /**
+     * @return string
+     */
+    public function dispose()
+    {
+        return "</{$this->root}>";
+    }
 }
-?>
+
