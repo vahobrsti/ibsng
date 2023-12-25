@@ -8,10 +8,11 @@
 require_once (IBSINC . "generator/creator.php");
 
 class ReportCreator extends Creator {
-	function ReportCreator() {
-		// initilized variables
-		$this->init();
-	}
+    public $conds;
+    public function __construct()
+    {
+        $this->init();
+    }
 
 	function create() {
 		// Reports
@@ -70,7 +71,7 @@ class ReportCreator extends Creator {
 		$this->register("error_mesg", "");
 
 		// collect conditions
-		$this->conds = & $this->collectConditions();
+		$this->conds =  $this->collectConditions();
 	}
 
 
@@ -80,7 +81,7 @@ class ReportCreator extends Creator {
 	 * @param mixed $result given information
 	 * @return mixed needed information for reporting
 	 * */
-	function __getFilteredOutputReport(& $result_row) {
+	protected function __getFilteredOutputReport(& $result_row) {
 		// filtering information
 		$report = array (
 			$this->getRegisteredValue("root_node_name"
@@ -98,16 +99,16 @@ class ReportCreator extends Creator {
 
 		foreach ($this->controller->getReportSelectors() as $formual => $field_name) {
 			// cut substr that is finish with '|' from $field_name_index
-			if (($pos = strpos($field_name, "|")) !== false)
-				$field_name = substr($field_name, 0, $pos);
-
+			if (($pos = strpos($field_name, "|")) !== false) {
+                $field_name = substr($field_name, 0, $pos);
+            }
 			// get field value from log
 			$report_row = $this->getFieldFromRow($row, $field_name);
 
 			// cut first substr that is finish with ','
-			if (($pos = strpos($field_name, ",")) !== false)
-				$field_name = substr($field_name, 0, $pos);
-
+			if (($pos = strpos($field_name, ",")) !== false) {
+                $field_name = substr($field_name, 0, $pos);
+            }
 			// delete prefix from field_name.
 			// it contains any thing like this show__info_ 
 			$field_name = deletePrefixFromFormula($this->getRegisteredValue("formula_prefixes"), $field_name);
@@ -131,10 +132,10 @@ class ReportCreator extends Creator {
 		$field_name_indexs = explode(",", $field_name_index);
 
 		// get value of each field
-		foreach ($field_name_indexs as $field_name)
-			// get value of field
-			$ret[] = $this->getFieldValue($row_report, $field_name);
-
+		foreach ($field_name_indexs as $field_name) {
+            // get value of field
+            $ret[] = $this->getFieldValue($row_report, $field_name);
+        }
 		return implode(" ", $ret);
 
 	}
@@ -160,7 +161,7 @@ class ReportCreator extends Creator {
 	 * 
 	 * register variable with it's value
 	 * @param string $var
-	 * @param mix $value value for $var
+	 * @param boolean $value value for $var
 	 * */
 	function register($var, $value) {
 		$this->variables[$var] = $value;
@@ -175,8 +176,9 @@ class ReportCreator extends Creator {
 	 * */
 
 	function getRegisteredValue($var) {
-		if (isset ($this->variables[$var]) and !is_null($this->variables[$var]))
-			return $this->variables[$var];
+		if (isset ($this->variables[$var]) and !is_null($this->variables[$var])) {
+            return $this->variables[$var];
+        }
 
 		toLog("Undefine property : " . $var . " you must overide this variable in drived class\n");
 		return "NotAssignedValue";
@@ -199,13 +201,13 @@ class ReportCreator extends Creator {
 	  * */
 	 function & getReports(& $request_results)
 	 {
-	     $ret = array ();
+         $ret = [];
 
-	     if ($request_results != null) 
-	     	if (isset($request_results["report"])) 
-	     		$ret = &$request_results["report"];
+         if ($request_results != null && isset($request_results["report"])) {
+             $ret = &$request_results["report"];
+         }
 
-	     return $ret;
+         return $ret;
 	 }
 	 	 
 	 /**
@@ -221,9 +223,9 @@ class ReportCreator extends Creator {
 		$error_occured = false;
 		$results = null;
 
-		if ($resp->isSuccessful())
-			$results = $resp->getResult();
-		else {
+		if ($resp->isSuccessful()) {
+            $results = $resp->getResult();
+        }else {
 			// not successfule reponce so ...
 			$resp->setErrorInSmarty($this->controller->smarty);
 			$this->register("error_mesg", $resp->getErrorMsg());
@@ -255,4 +257,3 @@ class ReportCreator extends Creator {
 	      return NULL;
 	  }
 }
-?>
