@@ -6,7 +6,7 @@
 2. Configuration 
     All Configuration options are currently in ibs_agi.py
 
-3. Asterisk extentions.conf
+3. Asterisk extentions.conf 
 
 [ibs]
 exten => s,1,Goto(ibs,1,1)
