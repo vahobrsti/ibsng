@@ -1,5 +1,5 @@
 #! /usr/bin/python -W ignore::: -OO 
-print "importing required files ..."
+print "importing required files ...."
 import signal
 import sys
 import os
